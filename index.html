@@ -16,29 +16,21 @@
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
 
-      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="/intro-to-ethical-hacking-talk/css/bootstrap.min.css" />
     
-      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+      <link rel="stylesheet" href="/intro-to-ethical-hacking-talk/css/bootstrap-social.css" />
     
-      <link rel="stylesheet" href="/css/main.css" />
+      <link rel="stylesheet" href="/intro-to-ethical-hacking-talk/css/main.css" />
     
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
     
       <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-    
-  <meta property="og:title" content="Intro to Ethical Hacking" />
-  <meta property="og:description" content="UQCS demo writeup">
-  <meta property="og:type" content="website" />
-  
-  <meta property="og:url" content="http://localhost:4000/2018-09-08-UQCS-Intro-to-Ethical-Hacking/" />
-  <link rel="canonical" href="http://localhost:4000/2018-09-08-UQCS-Intro-to-Ethical-Hacking/" />
   
 </head>
 
   <body>
-
-    
   
+
     <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -65,7 +57,7 @@
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
 	    <a href="#">
-	      <img class="avatar-img" src="/img/avatar.jpeg" />
+	      <img class="avatar-img" src="/intro-to-ethical-hacking-talk/img/avatar.jpeg" />
 		</a>
 	  </div>
 	</div>
@@ -128,13 +120,13 @@ subnet.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nmap -sn 192.168.56.1/24
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/ping-scan.png" alt="pingscan" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/ping-scan.png" alt="pingscan" /></p>
 
 <p>nmap reports only finding two hosts, 192.168.56.1 is the attacking machine, we can verify this by:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ip addr show vboxnet0
 </code></pre></div></div>
-<p><img src="/img/ehtalk/ipaddr.png" alt="ipaddr" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/ipaddr.png" alt="ipaddr" /></p>
 
 <p>We can safely assume that the only other host 192.168.56.101 discovered by the ping sweep is our target (The address may be different on your machine depending on
 your virtualbox settings)</p>
@@ -146,7 +138,7 @@ your virtualbox settings)</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ nmap -sC -sV -oN init.nmap 192.168.56.101
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/nmap-script.png" alt="portscan" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/nmap-script.png" alt="portscan" /></p>
 
 <p>You should also scan the full TCP port range to see if if anything was missed,
  and don’t forget there's also UDP ports which could be open.</p>
@@ -173,7 +165,7 @@ filtering.</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ searchsploit vsftpd 3
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/searchsploit.png" alt="searchsploit" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/searchsploit.png" alt="searchsploit" /></p>
 
 <p>Unfortunately there doesn’t seem to be any matches for this ftp service in this
 database. You can also checkout some other websites such as <a href="https://cve.mitre.org/">cve.mitre.org</a> and <a href="https://nvd.nist.gov/">nvd.nist.gov</a> to see if there are 
@@ -207,7 +199,7 @@ Name (192.168.56.101:nomad): anonymous
 Password: anyPasswordILike
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/ftp.png" alt="ftp" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/ftp.png" alt="ftp" /></p>
 
 <p>It seems this <code class="highlighter-rouge">ftp</code> service is only serving an empty directory. You should also
 test if the service will allow you to upload files anonymously:</p>
@@ -237,7 +229,7 @@ server.</p>
 it and interact with the site as if we are a normal user, getting a feel for
 what the site does and what features it has.</p>
 
-<p><img src="/img/ehtalk/odin.png" alt="odin" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/odin.png" alt="odin" /></p>
 
 <p>As cool as this website is, it doesn’t appear to have any functionality or contain
 any links to other pages. Make sure you view the source code of the page and
@@ -253,7 +245,7 @@ specify pages that you don’t want to appear in google search results
 by placing a disallow entry into <code class="highlighter-rouge">robots.txt</code>. Obviously if the developers don’t
 want us there, then as pentesters we absolutely want to check it out.</p>
 
-<p><img src="/img/ehtalk/robots.png" alt="robots" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/robots.png" alt="robots" /></p>
 
 <p>It appears this <code class="highlighter-rouge">/dev</code> page is another dead end.</p>
 
@@ -271,11 +263,11 @@ The list I used comes from <a href="https://github.com/danielmiessler/SecLists">
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gobuster -w wordlists/SecLists/Discovery/Web-Content/common.txt -u http://192.168.56.101 -x php,html,txt 
 </code></pre></div></div>
-<p><img src="/img/ehtalk/gobuster.png" alt="gobuster" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/gobuster.png" alt="gobuster" /></p>
 
 <p><code class="highlighter-rouge">gobuster</code> has found a new directory <code class="highlighter-rouge">/secret/</code> for us to look at, lets go there.</p>
 
-<p><img src="/img/ehtalk/secret.png" alt="secret" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/secret.png" alt="secret" /></p>
 
 <p>The page seems to load a wordpress site, but there doesn’t seem to be any css,
 and all of the links appear to be broken. You’ll notice however that the links
@@ -292,11 +284,11 @@ specified in the incoming request.</p>
 target, we can manually add a mapping of <code class="highlighter-rouge">vtcsec</code> -&gt; <code class="highlighter-rouge">192.168.56.101</code> by 
 creating an entry in our <code class="highlighter-rouge">/etc/hosts</code> file.</p>
 
-<p><img src="/img/ehtalk/hosts.png" alt="hosts" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/hosts.png" alt="hosts" /></p>
 
 <p>Reloading the page we now see it looks like a proper wordpress site.</p>
 
-<p><img src="/img/ehtalk/wp1.png" alt="wp1" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/wp1.png" alt="wp1" /></p>
 
 <p>You should browse through the site, clicking through all the links and attempt
 to identify any functionality the site has. There is a really nice tool you can
@@ -308,7 +300,7 @@ an opportunity to attempt some SQL injection, but additionally you should always
 try some default credentials sets, as you’ll be surprised how often people leave
 developers leave sites protected with poor passwords (Also very common to see in  CTFs)</p>
 
-<p><img src="/img/ehtalk/adminadmin.png" alt="adminadmin" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/adminadmin.png" alt="adminadmin" /></p>
 
 <p>Here I was able to login with the credentials admin:admin, and now we have
 access to the wordpress admin panel!</p>
@@ -334,8 +326,8 @@ then it is unlikely your more advanced payloads will work.</p>
 <p>inside the <code class="highlighter-rouge">&lt;?php ?&gt;</code> tags in the footer.php page and seeing if the output from
 the bash <code class="highlighter-rouge">id</code> command prints out to the site.</p>
 
-<p><img src="/img/ehtalk/php.png" alt="php" /></p>
-<p><img src="/img/ehtalk/verify.png" alt="verify" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/php.png" alt="php" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/verify.png" alt="verify" /></p>
 
 <p>We have confirmed that we have code execution, so let’s try something more
 complicated.</p>
@@ -352,7 +344,7 @@ to our attacking machine. I recommend using the php reverse shell from <a href="
 </code></pre></div></div>
 <p>We can then trigger the reverse shell by reloading the web page:</p>
 
-<p><img src="/img/ehtalk/shell.png" alt="shell" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/shell.png" alt="shell" /></p>
 
 <p>It worked! We now have user level access to the target. The shell we have
 received can be upgraded to be a fully interactive bash shell by following the 
@@ -376,7 +368,7 @@ detecting a vulnerability or not.</p>
 <hr />
 <p>Eventually you will stumble on the interesting file <code class="highlighter-rouge">/home/jackson/read_ftp_log</code></p>
 
-<p><img src="/img/ehtalk/readftp.png" alt="readftp" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/readftp.png" alt="readftp" /></p>
 
 <p>The interesting thing here is the fact that this is an executable file which we
 have permission to run, and it also has the <code class="highlighter-rouge">setuid</code> bit set with the owner <code class="highlighter-rouge">root</code>.</p>
@@ -392,7 +384,7 @@ explanation of whats going on.</p>
 is calling the command <code class="highlighter-rouge">cat /var/log/vsftpd.log</code>. Obviously the intention here
 is to allow users to read the <code class="highlighter-rouge">vsftpd.log</code> file which is normally restricted.</p>
 
-<p><img src="/img/ehtalk/runftp.png" alt="runftp" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/runftp.png" alt="runftp" /></p>
 
 <p>We can exploit the fact that this <code class="highlighter-rouge">setuid</code> enabled program is executing 
 another program, in this case <code class="highlighter-rouge">cat</code>. When you try to run any program in <code class="highlighter-rouge">bash</code>,
@@ -403,7 +395,7 @@ variable trying to locate the program, and it will run the first match it receiv
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo $PATH
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/path.png" alt="path" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/path.png" alt="path" /></p>
 
 <p>If we create a new program called <code class="highlighter-rouge">cat</code> and place it on our <code class="highlighter-rouge">$PATH</code> before the
 normal version of <code class="highlighter-rouge">cat</code> then when this <code class="highlighter-rouge">read_ftp_log</code> program run and calls <code class="highlighter-rouge">cat</code>
@@ -440,7 +432,7 @@ it is the first version of <code class="highlighter-rouge">cat</code> bash will 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export PATH=/tmp/bin:$PATH
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/newpath.png" alt="newpath" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/newpath.png" alt="newpath" /></p>
 
 <p>All that's left now is to run the <code class="highlighter-rouge">read_ftp_log</code> program…</p>
 
@@ -448,7 +440,7 @@ it is the first version of <code class="highlighter-rouge">cat</code> bash will 
 $ ./read_ftp_log
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/proof.png" alt="proof" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/proof.png" alt="proof" /></p>
 
 <p>We now have a root shell! The CTF is completed and we can find our prize in 
 the <code class="highlighter-rouge">/root</code> directory:</p>
@@ -457,7 +449,7 @@ the <code class="highlighter-rouge">/root</code> directory:</p>
 $ less flag.txt
 </code></pre></div></div>
 
-<p><img src="/img/ehtalk/flag.png" alt="flag" /></p>
+<p><img src="/intro-to-ethical-hacking-talk/img/ehtalk/flag.png" alt="flag" /></p>
 
 <hr />
 
